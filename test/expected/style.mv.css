@@ -1,0 +1,15 @@
+.b-block-one__gif {
+    background: url('b-block-one.gif');
+}
+
+.b-block-one__jpeg {
+    background: url('b-block-one.jpeg');
+}
+
+.b-block-two__png {
+    background: url('b-block-two.png');
+}
+
+.b-block-two__jpg {
+    background: url('b-block-two.jpg');
+}
