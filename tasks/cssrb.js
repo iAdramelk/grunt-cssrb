@@ -74,17 +74,47 @@ module.exports = function( grunt ) {
 
                 if ( patterns.hasOwnProperty( key ) ) {
 
-                    mask = new RegExp( key );
+                    if ( typeof key === 'string' ) {
+
+                        mask = new RegExp( key );
+
+                    } else if ( key instanceof RegExp === true ) {
+
+                        mask = key;
+
+                    } else {
+
+                        grunt.log.error( '"' + key + '" pattern is ignored. Must be RegExp or String.' );
+
+                    }
 
                     urls_collection = URLS.getURLs( mask );
 
                     urls_collection.forEach( function ( path_url ) {
 
-                        var path_old    = path.join( options.old_base, path_url ),
-                            path_new    = path.join( options.new_base, patterns[ key ], path.basename( path_url ) ),
-                            file_exists = grunt.file.exists( path_old );
+                        var path_old = path.join( options.old_base, path_url ),
+                            path_new = path.join( options.new_base, patterns[ key ], path.basename( path_url ) ),
+                            file_exists;
 
-                        URLS.changeURLContent( path_url, path.join( patterns[ key ], path.basename( path_url ) ) );
+                        if ( path_old.indexOf('?') !== -1 ) {
+
+                            path_old = path_old.slice( 0, path_old.indexOf('?') );
+                            path_new = path_new.slice( 0, path_new.indexOf('?') );
+                        }
+
+                        if ( path_old.indexOf('#') !== -1 ) {
+
+                            path_old = path_old.slice( 0, path_old.indexOf('#') );
+                            path_new = path_new.slice( 0, path_new.indexOf('#') );
+                        }
+
+                        file_exists = grunt.file.exists( path_old );
+
+                        var path_regex = path_url.replace(/\//gi, '\\/');
+                            path_regex = path_regex.replace(/\?/gi, '\\?');
+                            path_regex = path_regex.replace(/\./gi, '\\.');
+
+                        URLS.changeURLContent( new RegExp(path_regex), path.join( patterns[ key ], path.basename( path_url ) ) );
 
                         if ( options.move && file_exists ) {
 
