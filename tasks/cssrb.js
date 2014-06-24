@@ -114,7 +114,8 @@ module.exports = function( grunt ) {
                             path_regex = path_regex.replace(/\?/gi, '\\?');
                             path_regex = path_regex.replace(/\./gi, '\\.');
 
-                        URLS.changeURLContent( new RegExp(path_regex), path.join( patterns[ key ], path.basename( path_url ) ) );
+                        URLS.changeURLContent( new RegExp(path_regex), path.join( patterns[ key ],
+                            path.basename( path_url )).replace(/\\/gi, '/')  );
 
                         if ( options.move && file_exists ) {
 
