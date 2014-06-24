@@ -66,6 +66,10 @@ Optional, set to true if you want to move files to the new directory.
 
 ## Release History
 
+### 0.1.2
+
+  - Fixed bug with paths in CSS when using Windows. (tnx @chayn1k).
+
 ### 0.1.1
 
   - Fixed bug with replacing '../font/fontawesome-webfont.eot?#iefix&v=3.2.1' urls.
